@@ -33,9 +33,13 @@ This repository contains a time-series forecasting framework that applies statis
 
 ## Data
 
-- **Target series:** total budget revenues (`VenitTotal`), monthly, **2016–2025**, served by the project API at `https://doctorat.dragulin.net/api/DateModelare/`.
-- **Exogenous macro indicators** (multivariate models): gross domestic product (GDP), registered unemployment, resident population, number of employees, and average gross monthly earnings. These are sourced from the **Romanian National Institute of Statistics (INS) TEMPO-Online** and aligned to a monthly × territorial-unit resolution.
-- The notebooks **fetch data live from the API at runtime**, so no data files are bundled.
+The notebooks read **bundled CSV files** (no network/API dependency), covering **2016–2025** at monthly resolution:
+
+- `venituri_total.csv` — total budget revenues (`Valoare`), the forecasting target.
+- `cheltuieli_total.csv` — total budget expenditures, used by the cointegration / ECM analysis.
+- `indicatori_total.csv` — macro indicators: GDP (`PIB`), average gross monthly earnings (`CastigSalarial`), number of employees (`NumarSalariati`), resident population (`Populatie`), registered unemployment (`Somaj`).
+
+**Provenance:** revenue and expenditure series are aggregated from the public budget-execution database (ANAF filings); the macro indicators are sourced from the **Romanian National Institute of Statistics (INS) TEMPO-Online** (series `CON104Q`, `FOM107E`, `FOM104D`, `POP105A`, `SOM101E`) and aligned to monthly resolution. The CSVs were exported once so the analysis is fully reproducible offline.
 
 > Note on coverage: revenues, expenditures, GDP, unemployment, and population reach 2025; the annual labour-market series (employees, earnings) are published by INS with a lag, so their 2025 values are carried forward from 2024 until the official figures are released.
 
@@ -49,6 +53,9 @@ This repository contains a time-series forecasting framework that applies statis
 ├── analiza-var-total-venituri.ipynb   # Vector AutoRegression (revenues ↔ GDP)
 ├── analiza-ecm-total-venituri.ipynb   # Cointegration / VECM (revenues ↔ expenditures)
 ├── prognoza-total-venituri.ipynb      # Full model comparison and forecasting
+├── venituri_total.csv                 # Budget revenues (target), 2016–2025
+├── cheltuieli_total.csv               # Budget expenditures, 2016–2025
+├── indicatori_total.csv               # Macro indicators (GDP, earnings, employment, population, unemployment)
 ├── requirements.txt                   # Python dependencies
 └── LICENSE
 ```
